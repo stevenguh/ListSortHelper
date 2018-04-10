@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Description>ListSortHelper is to provide the same sorting algorithm used in Array publicly to IList&lt;T&gt;</Description>
+    <Title>ListSortHelper</Title>
     <PackageTags>sort;sorting;ArraySortHelper;IArraySortHelper;ListSortHelper;IListSortHelper</PackageTags>
     <PackageProjectUrl>https://github.com/stevenguh/ListSortHelper</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/stevenguh/ListSortHelper/master/LICENSE.md</PackageLicenseUrl>
