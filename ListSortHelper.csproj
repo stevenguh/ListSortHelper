@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <VersionPrefix>1.0.0</VersionPrefix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageTags>sort;sorting;ArraySortHelper;IArraySortHelper;ListSortHelper;IListSortHelper</PackageTags>
+    <PackageProjectUrl>https://github.com/stevenguh/ListSortHelper</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/stevenguh/ListSortHelper/master/LICENSE.md</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/stevenguh/ListSortHelper</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
