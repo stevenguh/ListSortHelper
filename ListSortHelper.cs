@@ -38,6 +38,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Runtime.Versioning;
+using IListSortHelper;
 
 namespace System.Collections.Generic
 {
@@ -69,7 +70,7 @@ namespace System.Collections.Generic
 
     internal static void ThrowOrIgnoreBadComparer(Object comparer)
     {
-      throw new ArgumentException();//SR.Format(SR.Arg_BogusIComparer, comparer));
+      throw new ArgumentException(string.Format(Resource.Arg_BogusIComparer, comparer));
     }
   }
 
@@ -99,7 +100,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
@@ -112,7 +113,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
@@ -135,7 +136,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
@@ -382,7 +383,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
@@ -404,7 +405,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
@@ -681,7 +682,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
@@ -929,7 +930,7 @@ namespace System.Collections.Generic
       }
       catch (Exception e)
       {
-        throw new InvalidOperationException("", e);//SR.InvalidOperation_IComparerFailed, e);
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
       }
     }
 
