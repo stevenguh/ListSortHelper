@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <None Include="./LICENSE" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 
@@ -18,7 +19,7 @@
     <Title>ListSortHelper</Title>
     <PackageTags>sort;sorting;ArraySortHelper;IArraySortHelper;ListSortHelper;IListSortHelper</PackageTags>
     <PackageProjectUrl>https://github.com/stevenguh/ListSortHelper</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/stevenguh/ListSortHelper/master/LICENSE.md</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/stevenguh/ListSortHelper</RepositoryUrl>
   </PropertyGroup>
