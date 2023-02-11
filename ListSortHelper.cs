@@ -33,15 +33,140 @@
 ** 
 ===========================================================*/
 
-using System;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Diagnostics;
-using System.Runtime.Versioning;
 using IListSortHelper;
 
 namespace System.Collections.Generic
 {
+  #region ReadOnlyListSortHelper for single lists
+
+  public interface IReadOnlyListSortHelper<TKey>
+  {
+    int BinarySearch(IReadOnlyList<TKey> keys, int index, int length, TKey value, IComparer<TKey> comparer);
+  }
+
+  public class ReadOnlyListSortHelper<T> : IReadOnlyListSortHelper<T>
+  {
+    private static volatile IReadOnlyListSortHelper<T> defaultReadOnlyListSortHelper = null;
+
+    public static IReadOnlyListSortHelper<T> Default => defaultReadOnlyListSortHelper ?? (defaultReadOnlyListSortHelper = new ReadOnlyListSortHelper<T>());
+
+    #region IReadOnlyListSortHelper<T> Members
+
+    public int BinarySearch(IReadOnlyList<T> list, int index, int length, T value, IComparer<T> comparer)
+    {
+      try
+      {
+        comparer = comparer ?? Comparer<T>.Default;
+        return InternalBinarySearch(list, index, length, value, comparer);
+      }
+      catch (Exception e)
+      {
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
+      }
+    }
+
+    #endregion
+
+    internal static int InternalBinarySearch(IReadOnlyList<T> list, int index, int length, T value, IComparer<T> comparer)
+    {
+      Debug.Assert(list != null, "Check the arguments in the caller!");
+      Debug.Assert(index >= 0 && length >= 0 && (list.Count - index >= length), "Check the arguments in the caller!");
+
+      int lo = index;
+      int hi = index + length - 1;
+      while (lo <= hi)
+      {
+        int i = lo + ((hi - lo) >> 1);
+        int order = comparer.Compare(list[i], value);
+
+        if (order == 0) return i;
+        if (order < 0)
+        {
+          lo = i + 1;
+        }
+        else
+        {
+          hi = i - 1;
+        }
+      }
+
+      return ~lo;
+    }
+  }
+
+  public class GenericReadOnlyListSortHelper<T> : IReadOnlyListSortHelper<T>
+    where T : IComparable<T>
+  {
+    // Do not add a constructor to this class because ReadOnlyListSortHelper<T>.CreateSortHelper will not execute it
+
+    #region IReadOnlyListSortHelper<T> Members
+
+    public int BinarySearch(IReadOnlyList<T> list, int index, int length, T value, IComparer<T> comparer)
+    {
+      Debug.Assert(list != null, "Check the arguments in the caller!");
+      Debug.Assert(index >= 0 && length >= 0 && (list.Count - index >= length), "Check the arguments in the caller!");
+
+      try
+      {
+        if (comparer == null || comparer == Comparer<T>.Default)
+        {
+          return BinarySearch(list, index, length, value);
+        }
+        else
+        {
+          return ReadOnlyListSortHelper<T>.InternalBinarySearch(list, index, length, value, comparer);
+        }
+      }
+      catch (Exception e)
+      {
+        throw new InvalidOperationException(Resource.InvalidOperation_IComparerFailed, e);
+      }
+    }
+
+    #endregion
+
+    // This function is called when the user doesn't specify any comparer.
+    // Since T is constrained here, we can call IComparable<T>.CompareTo here.
+    // We can avoid boxing for value type and casting for reference types.
+    private static int BinarySearch(IReadOnlyList<T> list, int index, int length, T value)
+    {
+      int lo = index;
+      int hi = index + length - 1;
+      while (lo <= hi)
+      {
+        int i = lo + ((hi - lo) >> 1);
+        int order;
+        if (list[i] == null)
+        {
+          order = (value == null) ? 0 : -1;
+        }
+        else
+        {
+          order = list[i].CompareTo(value);
+        }
+
+        if (order == 0)
+        {
+          return i;
+        }
+
+        if (order < 0)
+        {
+          lo = i + 1;
+        }
+        else
+        {
+          hi = i - 1;
+        }
+      }
+
+      return ~lo;
+    }
+  }
+  #endregion
+
+
   #region ListSortHelper for single lists
 
   public interface IListSortHelper<TKey>
@@ -355,7 +480,7 @@ namespace System.Collections.Generic
   }
 
   public class GenericListSortHelper<T> : IListSortHelper<T>
-      where T : IComparable<T>
+    where T : IComparable<T>
   {
     // Do not add a constructor to this class because ListSortHelper<T>.CreateSortHelper will not execute it
 
@@ -904,7 +1029,7 @@ namespace System.Collections.Generic
   }
 
   public class GenericListSortHelper<TKey, TValue> : IListSortHelper<TKey, TValue>
-      where TKey : IComparable<TKey>
+    where TKey : IComparable<TKey>
   {
     public void Sort(IList<TKey> keys, IList<TValue> values, int index, int length, IComparer<TKey> comparer)
     {
